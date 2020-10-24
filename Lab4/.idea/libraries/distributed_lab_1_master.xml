@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="distributed-lab-1-master">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/distributed-lab-1-master.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

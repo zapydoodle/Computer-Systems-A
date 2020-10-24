@@ -1,14 +1,13 @@
 
 package main
+
 import (
-//	"errors"
-//	"flag"
-//	"fmt"
-//	"net"
-	"time"
+	"flag"
 	"math/rand"
-//	"secretstrings/stubs"
-//	"net/rpc"
+	"net"
+	"net/rpc"
+	"secretstrings/stubs"
+	"time"
 )
 
 /** Super-Secret `reversing a string' method we can't allow clients to see. **/
@@ -21,3 +20,30 @@ func ReverseString(s string, i int) string {
     return string(runes)
 }
 
+type SecretStringOperations struct{}
+
+func (s *SecretStringOperations) Reverse(request stubs.Request, response *stubs.Response)(err error){
+	response.Message=ReverseString(request.Message,10)
+	return
+}
+
+func (s *SecretStringOperations) FastReverse(request stubs.Request, response *stubs.Response)(err error){
+	response.Message=ReverseString(request.Message,2)
+	return
+}
+
+
+func main(){
+	pAddr:=flag.String("port","8030","Port to listen on")
+	flag.Parse()
+	rand.Seed(time.Now().UnixNano())
+	rpc.Register(&SecretStringOperations{})
+	listener,_:=net.Listen("tcp",":"+*pAddr)
+	defer listener.Close()
+	rpc.Accept(listener)
+
+
+
+
+
+}
